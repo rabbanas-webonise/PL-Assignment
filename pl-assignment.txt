@@ -1,0 +1,81 @@
+# language : java
+  
+  concept  : multithreading with synchronization 
+  why      : java is easy to learn and everythig in java is object if we understand the oops concept in java we can code 		     easily.
+            Java is guarentee of write once and run anywhere it is 
+            platform independent.
+            java provides the security.
+            In java multithreaded feature is there so it is possible to write
+	    the program which can perform multiple task simultaneously.
+	    But in multiple threading any resource can be shared at any time it
+            means when we run the program it will give you diffrent out every time.
+      	    so, synchronized method is used to lock the object for any shared resources.
+
+
+#program
+
+
+
+class Factorial                            // defin the class Factorial                
+{
+
+   synchronized void printfact(int num)    //synchronized printfact method to perform the multiple factorial process 					            one by one at a given time     
+   {  
+       int fact=1;			  // initialize the fact variable with value 1
+     for(int i=1;i<=num;i++)		  // start the loop with 1 till the value of i get false like if i=11 and the
+					     num=10 then the loop will get terminate because 11<=10 is false 
+       {
+           fact=fact*i;			 // perform the factorial operation till the loop get terminated
+         
+       }				 // after the termination of loop
+       System.out.println(fact);	 // print the factorial value 
+      try				 // here we put the thread sleep method in try catch block so if the exception 
+					    occure it get handle 
+       {
+         Thread.sleep(1000);		// here the thread will sleep for 1000 milliseconds and then next thread execute
+       }catch(Exception e)
+          {
+		System.out.println(e);  // if exception occure it will print over here
+          }
+   }					// end of synchronized method
+}					// end of class
+
+class MyThread extends Thread           // here we created the class "MyThread" which is extended to Thread class      
+{
+  Factorial t;				//here we created the instance of a class 
+  MyThread(Factorial t)                 
+  {
+    this.t=t;				//initialize the current variable
+  }
+ public void run()			// override the run method of a thread it is mandatory
+ {
+   t.printfact(5);		//call the method "printfact()" of a Factorial class  and pass the value 
+ }					// end of run method
+}					// end of MyThread class
+
+class MyThread2 extends Thread           // here we created the another class "MyThread2" which is
+					   extended to Thread  class      
+{
+  Factorial t;				//here we created the instance of a class 
+  MyThread2(Factorial t)		
+  {
+    this.t=t;				// initialize the current object using this 
+  }
+ public void run()			// override the run method of a thread it is mandatory
+ {
+   t.printfact(3);			//call the method of a Factorial class and pass the value
+ }					// end of run method
+}					// end of MyThread
+
+public class threadSynchronization	//  the main methoda class
+{
+  public static void main(String args[])  // main() method
+  {
+    Factorial tbl=new Factorial();        // created object of a Factorial class
+    MyThread t1=new MyThread(tbl);        //create the MyThread class object and pass the Factorial class object to the 					    constuctor
+    MyThread2 t2=new MyThread2(tbl);     //create the MyThread class object and pass the Factorial class object to the
+					   constructor
+    t1.start();                           // start the execution of thread 1 which executes a call to run() method 
+    t2.start();				  // start the execution of  thread 2 which executes a call to run() method 
+  }					// end of main
+}					// end of class             
